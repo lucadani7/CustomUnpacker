@@ -17,7 +17,7 @@ logging.basicConfig(
    1. create_archive function, who creates an archive. The parameters are sources, who is a directory or a list of files, and archive_name, the name of
    the archive who is about to be created. Using auxiliar function add_in_archive, with parameters archive, file_path and header_format.
 
-   2. list_archive function, who lists all the files from an archive. There is a single parameter, archive_path, where
+   2. list_content function, who lists all the files from an archive. There is a single parameter, archive_path, where
    we give path of the archive we want to see its content. For less problems, giving archive absolute path is recommended.
 
    3. full_unpack function, who extracts all the files from the specified archive to a destination directory. First argument:
@@ -78,3 +78,35 @@ class CustomUnpacker:
         except Exception as e:
             logging.error(f"Error while adding the archive {file_path}: {e}")
             print(f"Error while adding the archive {file_path}: {e}")
+
+    def list_content(self, archive_path):
+        try:
+            with open(archive_path, 'rb') as archive:
+                logging.info(f"Reading {archive} archive content...")
+                count_files = 0  # assuming that the archive has no files
+                while True:
+                    header = archive.read(Constants.HEADER_SIZE)
+                    if len(header) < Constants.HEADER_SIZE:
+                        break  # stop the cycle if not enough data for a header
+
+                    file_name, size = struct.unpack(Constants.HEADER_FORMAT, header)
+                    file_name = file_name.strip(b'\x00').decode('utf-8')
+                    logging.info(f"File found: {file_name}, Dimension: {size} bytes.")
+                    print(f"File found: {file_name}, Dimension: {size} bytes.")
+
+                    # skipping the other data about the file in question
+                    archive.seek(size, os.SEEK_CUR)
+                    count_files += 1
+
+                if count_files == 0:
+                    logging.warning("Empty archive!")
+                    print("Empty archive!")
+
+        except FileNotFoundError:
+            logging.error(f"Archive path {archive_path} does not exist.")
+            print(f"Archive {archive_path} does not exist.")
+        except Exception as e:
+            logging.error(f"Error while reading the archive {archive_path}: {e}")
+            print(f"Error while reading the archive {archive_path}: {e}")
+
+
