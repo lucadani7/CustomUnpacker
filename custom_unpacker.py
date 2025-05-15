@@ -83,6 +83,7 @@ class CustomUnpacker:
         try:
             with open(archive_path, 'rb') as archive:
                 logging.info(f"Reading {archive} archive content...")
+                print(f"Reading {archive} archive content...")
                 count_files = 0  # assuming that the archive has no files
                 while True:
                     header = archive.read(Constants.HEADER_SIZE)
@@ -109,4 +110,37 @@ class CustomUnpacker:
             logging.error(f"Error while reading the archive {archive_path}: {e}")
             print(f"Error while reading the archive {archive_path}: {e}")
 
+    def full_unpack(self, archive_path, destination_directory):
+        try:
+            if not os.path.exists(destination_directory):
+                os.makedirs(destination_directory)
+                logging.info(f"Directory {destination_directory} has been created.")
+                print(f"Directory {destination_directory} has been created.")
 
+            with open(archive_path, 'rb') as archive:
+                logging.info(f"Archive opening: {archive_path}")
+
+                while True:
+                    header = archive.read(Constants.HEADER_SIZE)
+                    if len(header) < Constants.HEADER_SIZE:
+                        break
+
+                    file_name, size = struct.unpack(Constants.HEADER_FORMAT, header)
+                    file_name = file_name.strip(b'\x00').decode('utf-8')
+
+                    file_path = os.path.join(destination_directory, file_name)
+                    with open(file_path, 'wb') as file:
+                        file.write(archive.read(size))
+
+                    logging.info(f"File {file_name} has been extracted in {destination_directory}.")
+                    print(f"File {file_name} has been extracted in {destination_directory}.")
+
+            logging.info(f"Archive {archive_path} has been extracted successfully into {destination_directory}.")
+            print(f"Archive {archive_path} has been extracted successfully into {destination_directory}.")
+
+        except FileNotFoundError:
+            logging.error(f"Archive path {archive_path} does not exist.")
+            print(f"Archive path {archive_path} does not exist.")
+        except Exception as e:
+            logging.error(f"Error while extracting the archive {archive_path}: {e}")
+            print(f"Error while extracting the archive {archive_path}: {e}")
