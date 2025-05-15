@@ -119,6 +119,7 @@ class CustomUnpacker:
 
             with open(archive_path, 'rb') as archive:
                 logging.info(f"Archive opening: {archive_path}")
+                print(f"Archive opening: {archive_path}")
 
                 while True:
                     header = archive.read(Constants.HEADER_SIZE)
