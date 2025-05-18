@@ -2,7 +2,7 @@ import logging
 import os
 import struct
 
-from constants import Constants
+from constants import constants
 
 """Basic configuration of logging"""
 logging.basicConfig(
@@ -46,12 +46,12 @@ class CustomUnpacker:
 
             for source in sources:
                 if os.path.isfile(source):  # if the source is a file, add it directly to archive
-                    self.add_in_archive(archive, source, Constants.HEADER_FORMAT)
+                    self.add_in_archive(archive, source, constants.HEADER_FORMAT)
                 elif os.path.isdir(source):  # if the source is a directory, process the files and add each file to archive
                     for root, _, files in os.walk(source):
                         for file in files:
                             absolute_path = os.path.join(root, file)
-                            self.add_in_archive(archive, absolute_path, Constants.HEADER_FORMAT)
+                            self.add_in_archive(archive, absolute_path, constants.HEADER_FORMAT)
                 else:
                     logging.warning(f"Source {source} is not a valid file or directory.")
                     print(f"Source {source} is not a valid file or directory.")
@@ -86,11 +86,11 @@ class CustomUnpacker:
                 print(f"Reading {archive} archive content...")
                 count_files = 0  # assuming that the archive has no files
                 while True:
-                    header = archive.read(Constants.HEADER_SIZE)
-                    if len(header) < Constants.HEADER_SIZE:
+                    header = archive.read(constants.HEADER_SIZE)
+                    if len(header) < constants.HEADER_SIZE:
                         break  # stop the cycle if not enough data for a header
 
-                    file_name, size = struct.unpack(Constants.HEADER_FORMAT, header)
+                    file_name, size = struct.unpack(constants.HEADER_FORMAT, header)
                     file_name = file_name.strip(b'\x00').decode('utf-8')
                     logging.info(f"File found: {file_name}, Dimension: {size} bytes.")
                     print(f"File found: {file_name}, Dimension: {size} bytes.")
@@ -122,11 +122,11 @@ class CustomUnpacker:
                 print(f"Archive opening: {archive_path}")
 
                 while True:
-                    header = archive.read(Constants.HEADER_SIZE)
-                    if len(header) < Constants.HEADER_SIZE:
+                    header = archive.read(constants.HEADER_SIZE)
+                    if len(header) < constants.HEADER_SIZE:
                         break
 
-                    file_name, size = struct.unpack(Constants.HEADER_FORMAT, header)
+                    file_name, size = struct.unpack(constants.HEADER_FORMAT, header)
                     file_name = file_name.strip(b'\x00').decode('utf-8')
 
                     file_path = os.path.join(destination_directory, file_name)
@@ -160,11 +160,11 @@ class CustomUnpacker:
                 print(f"Archive opening: {archive_path}")
 
                 while True:
-                    header = archive.read(Constants.HEADER_SIZE)
-                    if len(header) < Constants.HEADER_SIZE:
+                    header = archive.read(constants.HEADER_SIZE)
+                    if len(header) < constants.HEADER_SIZE:
                         break
 
-                    file_name, size = struct.unpack(Constants.HEADER_FORMAT, header)
+                    file_name, size = struct.unpack(constants.HEADER_FORMAT, header)
                     file_name = file_name.strip(b'\x00').decode('utf-8')
 
                     if file_name not in files_list:
