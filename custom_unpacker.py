@@ -37,24 +37,26 @@ logging.basicConfig(
 class CustomUnpacker:
     def create_archive(self, sources, archive_name):
         try:
-            with open(archive_name, 'wb') as archive:
-                logging.info(f"Creation of {archive_name} archive has been started.")
-                print(f"Creation of {archive_name} archive has been started.")
+            logging.info(f"Creation of {archive_name} archive has been started.")
+            print(f"Creation of {archive_name} archive has been started.")
 
+            # Ensure sources are treated as a list
             if isinstance(sources, str):
                 sources = [sources]
 
-            for source in sources:
-                if os.path.isfile(source):  # if the source is a file, add it directly to archive
-                    self.add_in_archive(archive, source, constants.HEADER_FORMAT)
-                elif os.path.isdir(source):  # if the source is a directory, process the files and add each file to archive
-                    for root, _, files in os.walk(source):
-                        for file in files:
-                            absolute_path = os.path.join(root, file)
-                            self.add_in_archive(archive, absolute_path, constants.HEADER_FORMAT)
-                else:
-                    logging.warning(f"Source {source} is not a valid file or directory.")
-                    print(f"Source {source} is not a valid file or directory.")
+            # Open archive before adding files
+            with open(archive_name, 'wb') as archive:
+                for source in sources:
+                    if os.path.isfile(source):  # If the source is a file, add it directly
+                        self.add_in_archive(archive, source, constants.HEADER_FORMAT)
+                    elif os.path.isdir(source):  # If the source is a directory, process and add each file
+                        for root, _, files in os.walk(source):
+                            for file in files:
+                                absolute_path = os.path.join(root, file)
+                                self.add_in_archive(archive, absolute_path, constants.HEADER_FORMAT)
+                    else:
+                        logging.warning(f"Source {source} is not a valid file or directory.")
+                        print(f"Source {source} is not a valid file or directory.")
 
             logging.info(f"Archive {archive_name} has been created successfully.")
             print(f"Archive {archive_name} has been created successfully.")
