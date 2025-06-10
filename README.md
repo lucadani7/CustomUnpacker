@@ -140,7 +140,7 @@ The project includes a main.py script that allows you to execute the functions f
     -	I: An unsigned integer (4 bytes) for storing the file size.
  -	HEADER_SIZE: Dynamically computed size of the header using struct.calcsize(HEADER_FORMAT).
 
-**These constants are used throughout the program to ensure consistent handling of file headers.**
+**These constants define the structure and size of each file header stored in the archive.**
 
 ---
 
@@ -160,6 +160,6 @@ To ensure your message is read and not marked as spam, the email subject line mu
   -	 [CustomUnpacker] Suggestions – for improvement ideas or feature requests
   -	 [CustomUnpacker] Feedback – for general impressions or thoughts on the project
 
-❗ Emails without the correct subject tag will be ignored and marked as spam.
+❗ Emails without the correct subject line will be ignored and marked as spam.
 
 📧 Email: lucaionescu1998@gmail.com
