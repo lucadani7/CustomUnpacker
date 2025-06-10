@@ -32,13 +32,12 @@ A Python tool designed for extracting files from custom archives, commonly used 
     choco install python310 -y
     ```
     
-
   - **macOS:** Download the latest Python 3.10 installer for macOS from the official Python website: [https://www.python.org/downloads/macos/](https://www.python.org/downloads/macos/). Alternatively, you can use Homebrew to install it:
  
     ```bash
     brew install python@3.10
     ```
-
+ 
   - **Linux:** On Linux, you can install Python 3.10 using your distribution's package manager. For example, on Ubuntu:
 
     ```bash
