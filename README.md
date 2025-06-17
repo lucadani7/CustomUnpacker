@@ -1,6 +1,6 @@
 # CustomUnpacker
 **Description:**  
-A Python tool designed for extracting files from custom archives, commonly used in game modding or file analysis. It supports creating archives, listing contents, and extracting specific or all files. Neither the zipFile library nor a third-party Python library have been used.
+This tool was created primarily for educational purposes — to better understand how custom archive formats work, including file headers, metadata, and binary I/O. It is not intended to replace existing solutions like `tar` or `zip`, but rather to explore the mechanics behind them. It supports creating archives, listing contents, and extracting specific or all files. Neither the zipFile library nor a third-party Python library have been used.
 
 ---
 
