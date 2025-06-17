@@ -97,7 +97,7 @@ Extracts specified files from an archive to a destination directory.
 
 ## 📟 Command-Line Usage
 
-The project includes a main.py script that allows you to execute the functions from the CustomUnpacker class directly from the command line.
+The project includes a main.py script that allows you to execute the functions from the CustomUnpacker class directly from the command line. For running the project, type in the command line `python3 main.py`, then press Enter key and then type the command you want to execute.
 
 - **Available Commands:**
   -	create_archive: Create an archive with specified files.
@@ -105,29 +105,37 @@ The project includes a main.py script that allows you to execute the functions f
   -	full_unpack: Extract all files from an archive.
   -	unpack: Extract specified files from an archive.
 
+- **Additional Commands:**
+  -	help: Show this help message
+  -	quit: Quit the program
+ 
+- **Notes:**
+  - The commands `help` and `quit` are handled internally and do not appear in the standard argparse usage block. However, when typing `help`, these additional commands will also be shown for clarity.
+  - If you enter an unknown command (e.g., `hellokitty`), the tool will show the list of valid commands and remain active without quitting the program.
+    
 - **Examples:**
   -	Creating an archive:
     
     ```bash
-   	 python3 main.py create_archive -s file1.txt file2.txt -a archive_name
+   	create_archive -s file1.txt file2.txt -a archive_name
     ```
     
   -	Listing the contents of an archive:
 
     ```bash
-    python3 main.py list_content -p archive_name
+    list_content -p archive_name
     ```
     
   -	Extracting all files from an archive:
 
     ```bash
-    python3 main.py full_unpack -p archive_name -d ./output_dir
+    full_unpack -p archive_name -d ./output_dir
     ```
     
   -	Extracting specific files from an archive:
  
     ```bash
-    python3 main.py unpack -p archive_name -f file1.txt file2.txt -d ./output_dir
+    unpack -p archive_name -f file1.txt file2.txt -d ./output_dir
     ```
 
 ---
