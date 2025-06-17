@@ -27,23 +27,34 @@ unpack_parser.add_argument("-f", "--files", nargs="+", required=True, help="File
 unpack_parser.add_argument("-d", "--destination", required=True, help="Destination directory.")
 
 unpacker = CustomUnpacker()
+print("Welcome to CustomUnpacker!")
 
 while True:
-    cmd_input = input("\nType a command (type 'quit' to quit): ").strip()
+    cmd_input = input("\nType a command (type 'quit' to quit or 'help' to see available commands): ").strip()
     if cmd_input.lower() == "quit":
         print("You chose to quit the program. Goodbye!")
         sys.exit(0)
-
-    args = parser.parse_args(cmd_input.split())
-    match args.command:
-        case "create_archive":
-            unpacker.create_archive(args.sources, args.archive)
-        case "list_content":
-            unpacker.list_content(args.path)
-        case "full_unpack":
-            unpacker.full_unpack(args.path, args.destination)
-        case "unpack":
-            unpacker.unpack(args.path, args.files, args.destination)
-        case _:
-            print(f"Error: Command '{args.command}' is not recognized.")
-            parser.print_help()
+    if cmd_input in ["help", "--help", "-h"]:
+        parser.print_help()
+        print("\nAdditional commands:")
+        print("  help                Show this help message")
+        print("  quit                Quit the program")
+        continue
+    try:
+        args = parser.parse_args(cmd_input.split())
+        match args.command:
+            case "create_archive":
+                unpacker.create_archive(args.sources, args.archive)
+            case "list_content":
+                unpacker.list_content(args.path)
+            case "full_unpack":
+                unpacker.full_unpack(args.path, args.destination)
+            case "unpack":
+                unpacker.unpack(args.path, args.files, args.destination)
+    except SystemExit:
+        print(f"Error: Command '{cmd_input}' is not recognized.")
+        parser.print_help()
+        print("\nAdditional commands:")
+        print("  help                Show this help message")
+        print("  quit                Quit the program")
+        continue
